@@ -1,5 +1,6 @@
 [build]
-  command = "npm run build:client"
+  # Use pnpm explicitly in Netlify build to match repo's packageManager
+  command = "pnpm install && pnpm run build:client"
   functions = "netlify/functions"
   publish = "dist/spa"
 
