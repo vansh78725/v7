@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useMemo, useState } from "react";
 import { toast } from "sonner";
+import AuthGate from "@/components/AuthGate";
 
 export type ClaimContextValue = {
   uid: string;
@@ -10,6 +11,9 @@ export type ClaimContextValue = {
   isUidValid: boolean;
   canClaim: boolean;
   claim: () => void;
+  isAuthed: boolean;
+  login: (pw: string) => boolean;
+  logout: () => void;
 };
 
 const ClaimContext = createContext<ClaimContextValue | undefined>(undefined);
@@ -17,6 +21,36 @@ const ClaimContext = createContext<ClaimContextValue | undefined>(undefined);
 export function ClaimProvider({ children }: { children: React.ReactNode }) {
   const [uid, setUid] = useState("");
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
+
+  // Auth
+  const [isAuthed, setIsAuthed] = useState<boolean>(() => {
+    try {
+      return typeof window !== "undefined" && localStorage.getItem("zenze_auth") === "true";
+    } catch {
+      return false;
+    }
+  });
+
+  const PASSWORD = "zenze@123";
+
+  const login = (pw: string) => {
+    if (pw === PASSWORD) {
+      setIsAuthed(true);
+      try {
+        localStorage.setItem("zenze_auth", "true");
+      } catch {}
+      return true;
+    }
+    toast.error("Incorrect password");
+    return false;
+  };
+
+  const logout = () => {
+    setIsAuthed(false);
+    try {
+      localStorage.removeItem("zenze_auth");
+    } catch {}
+  };
 
   const isUidValid = useMemo(() => /^\d{10}$/.test(uid), [uid]);
   const canClaim = isUidValid && selectedIds.length > 0;
@@ -43,11 +77,16 @@ export function ClaimProvider({ children }: { children: React.ReactNode }) {
   const clearSelected = () => setSelectedIds([]);
 
   const value = useMemo(
-    () => ({ uid, setUid, selectedIds, toggleSelected, clearSelected, isUidValid, canClaim, claim }),
-    [uid, selectedIds, isUidValid, canClaim]
+    () => ({ uid, setUid, selectedIds, toggleSelected, clearSelected, isUidValid, canClaim, claim, isAuthed, login, logout }),
+    [uid, selectedIds, isUidValid, canClaim, isAuthed]
   );
 
-  return <ClaimContext.Provider value={value}>{children}</ClaimContext.Provider>;
+  return (
+    <ClaimContext.Provider value={value}>
+      {!isAuthed ? <AuthGate onLogin={login} /> : null}
+      {isAuthed ? children : null}
+    </ClaimContext.Provider>
+  );
 }
 
 export function useClaim() {
