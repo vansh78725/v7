@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useMemo, useState } from "react";
 import { toast } from "sonner";
+import AuthGate from "@/components/AuthGate";
 
 export type ClaimContextValue = {
   uid: string;
