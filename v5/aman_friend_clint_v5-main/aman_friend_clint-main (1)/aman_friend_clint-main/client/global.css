@@ -1,0 +1,212 @@
+/** @import must precede all other statements */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /**
+   * Tailwind CSS theme
+   * tailwind.config.ts expects the following color variables to be expressed as HSL values.
+   * A different format will require also updating the theme in tailwind.config.ts.
+  */
+  :root {
+    /* Premium plum brand (glass-friendly) */
+    --background: 330 25% 8%;
+    --foreground: 210 40% 98%;
+
+    --card: 330 24% 10%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 330 24% 10%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 335 76% 52%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 280 28% 18%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 280 22% 22%;
+    --muted-foreground: 280 10% 74%;
+
+    --accent: 292 48% 44%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 300 18% 28%;
+    --input: 300 18% 28%;
+    --ring: 335 76% 58%;
+
+    --radius: 0.75rem;
+
+    /* Sidebar (matches brand) */
+    --sidebar-background: 330 22% 9%;
+    --sidebar-foreground: 210 40% 96%;
+    --sidebar-primary: 335 76% 52%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 280 22% 22%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 300 18% 28%;
+    --sidebar-ring: 335 76% 58%;
+
+    /* Extra tokens */
+    --brand: 335 76% 52%;
+    --brand-foreground: 0 0% 100%;
+
+    /* Site background image url */
+    --site-bg-url: url('https://cdn.builder.io/api/v1/image/assets%2Ffb795d15f146487ca8108581f173dd02%2F86c68cf854b842e2a8ceb97152da4c33?format=webp&width=1600');
+  }
+
+  .dark {
+    /* Invert to light scheme for dark class */
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    --primary: 335 76% 44%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215 20.2% 35.1%;
+
+    --accent: 335 76% 96%;
+    --accent-foreground: 335 76% 18%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 335 76% 44%;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 335 76% 44%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 335 76% 44%;
+
+    --brand: 335 76% 44%;
+    --brand-foreground: 0 0% 98%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    background-image:
+      radial-gradient(
+        1200px 600px at 10% 0%,
+        hsl(var(--primary) / 0.12),
+        transparent 60%
+      ),
+      radial-gradient(
+        900px 500px at 90% 10%,
+        hsl(var(--accent) / 0.12),
+        transparent 60%
+      ),
+      var(--site-bg-url);
+    background-size: auto, auto, cover;
+    background-repeat: no-repeat, no-repeat, no-repeat;
+    background-position: center, center, center;
+    background-attachment: scroll, scroll, fixed;
+  }
+}
+
+@layer components {
+  .brand-gradient {
+    background-image: linear-gradient(
+      135deg,
+      hsl(var(--primary)) 0%,
+      hsl(var(--accent)) 100%
+    );
+  }
+  .glass {
+    @apply backdrop-blur-xl bg-white/10 border border-white/20 shadow-[inset_0_1px_0_rgba(255,255,255,0.15),0_10px_30px_-10px_rgba(0,0,0,0.5)] rounded-xl;
+  }
+  .glass-card {
+    @apply glass bg-white/10 hover:bg-white/20 transition-colors;
+  }
+  .glass-input {
+    @apply glass bg-white/10 focus-within:ring-2 focus-within:ring-primary/60;
+  }
+  .gradient-hero {
+    background:
+      radial-gradient(
+        1200px 800px at 50% -10%,
+        hsl(var(--primary) / 0.25),
+        transparent 60%
+      ),
+      radial-gradient(
+        1000px 700px at 80% 10%,
+        hsl(var(--accent) / 0.25),
+        transparent 60%
+      ),
+      linear-gradient(
+        180deg,
+        hsl(var(--background)) 0%,
+        hsl(var(--background)) 100%
+      );
+  }
+
+  /* Full-site background container (split into three sections) */
+  .background-slideshow,
+  .background-split {
+    @apply absolute inset-0 pointer-events-none;
+  }
+  /* Ensure the wrapper follows page height */
+  .page-root { position: relative; }
+
+  .split-bg {
+    @apply absolute left-0 right-0;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  .split-1 { top: 0; height: 33.333%; background-image: url('https://cdn.builder.io/api/v1/image/assets%2Ffb795d15f146487ca8108581f173dd02%2Fd4fa85a27a20432da3ce5440590e03a6?format=webp&width=1600'); }
+  .split-2 { top: 33.333%; height: 33.334%; background-image: url('https://cdn.builder.io/api/v1/image/assets%2Ffb795d15f146487ca8108581f173dd02%2Febed1ab2773a4a858fe4d55ae921423e?format=webp&width=1600'); }
+  .split-3 { bottom: 0; height: 33.333%; background-image: url('https://cdn.builder.io/api/v1/image/assets%2Ffb795d15f146487ca8108581f173dd02%2F6f5b5a27d59c4eb1ad827f1736507b4a?format=webp&width=1600'); }
+
+  /* Brand tint for readability over images */
+  .background-tint {
+    @apply absolute inset-0;
+    background: radial-gradient(1200px 800px at 50% -10%, hsl(var(--primary) / 0.18), transparent 60%),
+                radial-gradient(1000px 700px at 80% 10%, hsl(var(--accent) / 0.16), transparent 60%),
+                linear-gradient(180deg, hsl(var(--background) / 0.35) 0%, hsl(var(--background) / 0.35) 100%);
+  }
+
+  /* Hero fallback: fixed image that covers the whole site */
+  .hero-bg-image {
+    @apply fixed inset-0 -z-10;
+    background-image: url('https://cdn.builder.io/api/v1/image/assets%2Ffb795d15f146487ca8108581f173dd02%2Fd4fa85a27a20432da3ce5440590e03a6?format=webp&width=1600');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.45;
+  }
+
+  /* Mobile adjustments: keep faces/subjects centered and avoid cropping key areas */
+  @media (max-width: 640px) {
+    .split-1 { background-position: center 30%; }
+    .split-2 { background-position: center 50%; }
+    .split-3 { background-position: center 60%; }
+  }
+}
