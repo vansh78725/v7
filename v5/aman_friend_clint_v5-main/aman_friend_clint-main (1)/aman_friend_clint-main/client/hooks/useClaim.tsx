@@ -10,6 +10,9 @@ export type ClaimContextValue = {
   isUidValid: boolean;
   canClaim: boolean;
   claim: () => void;
+  isAuthed: boolean;
+  login: (pw: string) => boolean;
+  logout: () => void;
 };
 
 const ClaimContext = createContext<ClaimContextValue | undefined>(undefined);
